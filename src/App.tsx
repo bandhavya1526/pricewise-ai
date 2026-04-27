@@ -20,8 +20,6 @@ import {
   Heart,
   ShoppingCart,
   User,
-  Menu,
-  X,
   Truck,
   CheckCircle2,
   BarChart3,
@@ -82,7 +80,6 @@ export default function App() {
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
   const [watchlist, setWatchlist] = useState<string[]>([]);
   const [activeImage, setActiveImage] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
@@ -278,52 +275,11 @@ const filteredProducts = useMemo(() => {
             <button className="p-2 hover:bg-black/5 rounded-full transition-colors">
               <User size={20} />
             </button>
-            <button className="lg:hidden p-2 hover:bg-black/5 rounded-full transition-colors" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden border-t border-black/5 bg-white overflow-hidden"
-            >
-              <div className="px-6 py-8 space-y-8">
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30" size={16} />
-                  <input 
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full pl-12 pr-4 py-4 bg-black/5 border-none rounded-2xl outline-none text-sm font-medium"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <nav className="flex flex-col gap-6 text-sm font-black uppercase tracking-widest">
-                  <button 
-                    onClick={() => { setSelectedProduct(null); setSelectedCategory(null); setIsMenuOpen(false); }}
-                    className={cn("text-left", !selectedProduct && !selectedCategory ? "text-black" : "text-black/40")}
-                  >
-                    Shop
-                  </button>
-                  <button 
-                    onClick={() => { setSelectedProduct(null); setIsMenuOpen(false); setTimeout(() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }}
-                    className="text-left text-black/40"
-                  >
-                    Categories
-                  </button>
-                  <button className="text-left text-black/40">Ethical Index</button>
-                  <button className="text-left text-black/40">Predictions</button>
-                </nav>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+       
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-10">
