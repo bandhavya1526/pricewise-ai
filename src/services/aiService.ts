@@ -1,34 +1,32 @@
 import { Product, PredictionResult, EthicalInsight } from "../types";
 
 export async function getPricePrediction(product: Product): Promise<PredictionResult> {
-  const currentPrice = Math.min(...product.platforms.map(p => p.price));
+  const bestPlatform = product.platforms.reduce((best, p) => {
+    const score = (p.ethicsScore * 10) - (p.price / 10000);
+    const bestScore = (best.ethicsScore * 10) - (best.price / 10000);
 
-  if (currentPrice < 15000) {
+    return score > bestScore ? p : best;
+  });
+
+  const score = (bestPlatform.ethicsScore * 10) - (bestPlatform.price / 10000);
+
+  if (score >= 75) {
     return {
       recommendation: "BUY",
-      predictedPrice: currentPrice + 500,
-      confidence: 0.92,
-      reasoning: "Affordable product currently at a strong price."
-    };
-  }
-
-  if (currentPrice < 40000) {
-    return {
-      recommendation: "WAIT",
-      predictedPrice: currentPrice - 2000,
-      confidence: 0.88,
-      reasoning: "Price likely to drop during upcoming sale."
+      predictedPrice: bestPlatform.price - 500,
+      confidence: 0.94,
+      reasoning: `${bestPlatform.name} offers strong ethics and competitive pricing.`
     };
   }
 
   return {
-    recommendation: "BUY",
-    predictedPrice: currentPrice - 1000,
-    confidence: 0.90,
-    reasoning: "Premium product currently priced competitively."
+    recommendation: "WAIT",
+    predictedPrice: bestPlatform.price - 1500,
+    confidence: 0.88,
+    reasoning: `Better deals may arrive soon. Current best option is ${bestPlatform.name}.`
   };
 }
-
+ 
 export async function getEthicalInsights(
   product: Product,
   platformName: string
