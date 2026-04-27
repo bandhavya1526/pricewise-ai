@@ -104,10 +104,7 @@ export default function App() {
     ? lgFridge
     : getProductImage(item.Product_Name),
            
-  images:
-  item.Product_Name.includes("LG Double Door Refrigerator")
-    ? [lgFridge]
-    : [getProductImage(item.Product_Name)],
+  images: [],
             description: item.Product_Name,
             stockStatus: "IN_STOCK",
             specifications: {
@@ -422,26 +419,13 @@ setSelectedPlatform(cheapest.name);
                 <div className="lg:col-span-7 space-y-6">
                   <div className="aspect-square rounded-[40px] overflow-hidden bg-white border border-black/5 shadow-sm">
                     <img 
-                      src={selectedProduct.images[activeImage] || selectedProduct.image} 
+                     src={selectedProduct.image}
                       alt={selectedProduct.name}
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
                   </div>
-                  <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                    {[selectedProduct.image, ...selectedProduct.images].map((img, i) => (
-                      <button 
-                        key={i}
-                        onClick={() => setActiveImage(i)}
-                        className={cn(
-                          "w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all shrink-0",
-                          activeImage === i ? "border-black scale-95" : "border-transparent opacity-60 hover:opacity-100"
-                        )}
-                      >
-                        <img src={img} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      </button>
-                    ))}
-                  </div>
+                 
 
                   {/* Detailed Specs */}
                   <div className="bg-white p-10 rounded-[40px] border border-black/5 shadow-sm space-y-8">
