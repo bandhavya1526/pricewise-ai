@@ -111,10 +111,10 @@ export default function App() {
             },
             platforms: [],
             historicalData: [
-              { date: "Day1", price: item.Current_Price + 1000 },
-              { date: "Day2", price: item.Current_Price + 500 },
-              { date: "Day3", price: item.Current_Price }
-            ]
+  { date: "Day1", price: item.Old_Price },
+  { date: "Day2", price: Math.round((item.Old_Price + item.Current_Price) / 2) },
+  { date: "Day3", price: item.Current_Price }
+]
           };
         }
         if (
@@ -133,7 +133,7 @@ export default function App() {
   grouped[name].platforms.push({
           name: item.Platform,
           price: item.Current_Price,
-          originalPrice: item.Current_Price + 3000,
+          originalPrice: item.Old_Price,
           seller: item.Platform,
           sellerRating: item.Rating,
           deliveryDays: 2,
