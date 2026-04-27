@@ -1,4 +1,38 @@
-export async function getEthicalInsights(product: Product, platformName: string): Promise<EthicalInsight> {
+import { Product, PredictionResult, EthicalInsight } from "../types";
+
+export async function getPricePrediction(product: Product): Promise<PredictionResult> {
+  const currentPrice = Math.min(...product.platforms.map(p => p.price));
+
+  if (currentPrice < 15000) {
+    return {
+      recommendation: "BUY",
+      predictedPrice: currentPrice + 500,
+      confidence: 0.92,
+      reasoning: "Affordable product currently at a strong price."
+    };
+  }
+
+  if (currentPrice < 40000) {
+    return {
+      recommendation: "WAIT",
+      predictedPrice: currentPrice - 2000,
+      confidence: 0.88,
+      reasoning: "Price likely to drop during upcoming sale."
+    };
+  }
+
+  return {
+    recommendation: "BUY",
+    predictedPrice: currentPrice - 1000,
+    confidence: 0.90,
+    reasoning: "Premium product currently priced competitively."
+  };
+}
+
+export async function getEthicalInsights(
+  product: Product,
+  platformName: string
+): Promise<EthicalInsight> {
   const platform = product.platforms.find(p => p.name === platformName);
 
   if (!platform) throw new Error("Platform not found");
