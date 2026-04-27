@@ -238,17 +238,7 @@ const filteredProducts = useMemo(() => {
       {/* Navigation */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/5 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-8">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2 cursor-pointer group" onClick={() => setSelectedProduct(null)}>
-              <div className="w-9 h-9 bg-[#1A1A1A] rounded-xl flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
-                <Scale size={18} />
-              </div>
-              <h1 className="text-xl font-serif font-black tracking-tight">PriceWise</h1>
-            </div>
 
-           
-          </div>
-          
           <div className="flex-1 max-w-xl relative group hidden md:block">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 group-focus-within:text-black transition-colors" size={16} />
             <input 
@@ -306,15 +296,9 @@ const filteredProducts = useMemo(() => {
                   </h2>
                   <p className="text-lg text-white/60 font-medium">
                     We analyze millions of data points to predict price drops and verify seller ethics, so you can shop with confidence.
-                  </p>
-                  
+                  </p>                 
                 </div>
-              </section>
-
-              
-              
-                      
-
+              </section>                                 
               {/* Product Grid */}
               <section className="space-y-8">
                 <div className="flex items-center justify-between">
