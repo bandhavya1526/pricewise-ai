@@ -237,7 +237,7 @@ const filteredProducts = useMemo(() => {
 
       {/* Navigation */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/5 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-8">
 
           <div className="flex-1 max-w-xl relative group hidden md:block">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 group-focus-within:text-black transition-colors" size={16} />
@@ -262,9 +262,7 @@ const filteredProducts = useMemo(() => {
             <button className="p-2 hover:bg-black/5 rounded-full transition-colors hidden sm:block">
               <ShoppingCart size={20} />
             </button>
-            <button className="p-2 hover:bg-black/5 rounded-full transition-colors">
-              <User size={20} />
-            </button>
+           
             
           </div>
         </div>
