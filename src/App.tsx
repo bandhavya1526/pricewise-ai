@@ -83,7 +83,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-  fetch("https://pricewise-ai-1.onrender.com/api/products")
+  fetch("https://pricewise-ai-ngu5.onrender.com/api/products")
     .then((res) => res.json())
     .then((data) => {
       const grouped: any = {};
