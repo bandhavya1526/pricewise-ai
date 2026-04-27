@@ -83,7 +83,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-  fetch("https://pricewise-ai-ngu5.onrender.com")
+  fetch("https://pricewise-ai-ngu5.onrender.com/api/products")
     .then((res) => res.json())
     .then((data) => {
       const grouped: any = {};
@@ -152,11 +152,11 @@ export default function App() {
         });}
       });
     
-      setProducts(
-  Object.values(grouped).filter(
-    (product: any) => product.platforms.length > 0
-  )
+const finalProducts = Object.values(grouped).filter(
+  (product: any) => product.platforms && product.platforms.length > 0
 );
+
+setProducts(finalProducts);
     })
     .catch((error) => console.error("Fetch error:", error));
 }, []);
