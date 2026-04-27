@@ -1,82 +1,38 @@
-import { GoogleGenAI, Type } from "@google/genai";
-import { Product, PredictionResult, EthicalInsight } from "../types";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
-
-export async function getPricePrediction(product: Product): Promise<PredictionResult> {
-  const currentPrice = Math.min(...product.platforms.map(p => p.price));
-
-  if (currentPrice < 15000) {
-    return {
-      recommendation: "BUY",
-      predictedPrice: currentPrice + 500,
-      confidence: 0.92,
-      reasoning: "Affordable product currently at a strong price."
-    };
-  }
-
-  if (currentPrice >= 15000 && currentPrice < 40000) {
-    return {
-      recommendation: "WAIT",
-      predictedPrice: currentPrice - 2000,
-      confidence: 0.88,
-      reasoning: "Price likely to drop during upcoming sale."
-    };
-  }
-
-  return {
-    recommendation: "BUY",
-    predictedPrice: currentPrice - 1000,
-    confidence: 0.90,
-    reasoning: "Premium product currently priced competitively."
-  };
-}
-
-
 export async function getEthicalInsights(product: Product, platformName: string): Promise<EthicalInsight> {
-  const model = "gemini-3-flash-preview";
   const platform = product.platforms.find(p => p.name === platformName);
-  
+
   if (!platform) throw new Error("Platform not found");
 
-  const prompt = `
-    Evaluate the ethical standing of the seller "${platform.seller}" on "${platform.name}" for the product "${product.name}".
-    Consider:
-    - Pricing fairness (Current: ${platform.price}, Original: ${platform.originalPrice})
-    - Seller Rating: ${platform.sellerRating}
-    - Sustainability indicators
-    - General corporate reputation of ${platform.name}
+  let score = 7.0;
 
-    Provide an Ethics Score (1-10), a list of pros, a list of cons, and a final verdict.
-  `;
+  if (platformName === "Amazon") score = 8.5;
+  if (platformName === "Flipkart") score = 7.8;
+  if (platformName === "Reliance Digital") score = 8.8;
+  if (platformName === "Myntra") score = 6.5;
 
-  try {
-    const response = await ai.models.generateContent({
-      model,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            score: { type: Type.NUMBER },
-            pros: { type: Type.ARRAY, items: { type: Type.STRING } },
-            cons: { type: Type.ARRAY, items: { type: Type.STRING } },
-            verdict: { type: Type.STRING }
-          },
-          required: ["score", "pros", "cons", "verdict"]
-        }
-      }
-    });
+  if (product.category === "Electronics" && platformName === "Reliance Digital") score += 0.5;
+  if (product.category === "Electronics" && platformName === "Myntra") score -= 1;
 
-    return JSON.parse(response.text);
-  } catch (error) {
-    console.error("Ethical insight error:", error);
-    return {
-      score: platform.ethicsScore,
-      pros: ["Established retailer", "Verified seller"],
-      cons: ["Dynamic pricing used"],
-      verdict: "Generally reliable but watch for price fluctuations."
-    };
-  }
+  score += (platform.sellerRating - 4) * 0.5;
+
+  score = Math.min(10, Math.max(5, Number(score.toFixed(1))));
+
+  return {
+    score,
+    pros: [
+      "Trusted platform reputation",
+      "Seller rating is good",
+      "Secure payment support"
+    ],
+    cons: [
+      "Dynamic pricing possible",
+      "Delivery may vary by location"
+    ],
+    verdict:
+      score >= 8.5
+        ? "Highly reliable seller with strong customer trust."
+        : score >= 7.5
+        ? "Generally reliable with good buying confidence."
+        : "Acceptable platform, compare before purchase."
+  };
 }
