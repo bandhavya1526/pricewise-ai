@@ -13,7 +13,7 @@ export async function getPricePrediction(product: Product): Promise<PredictionRe
   if (score >= 75) {
     return {
       recommendation: "BUY",
-      predictedPrice: bestPlatform.price - 500,
+      predictedPrice: bestPlatform.price,
       confidence: 0.94,
       reasoning: `${bestPlatform.name} offers strong ethics and competitive pricing.`
     };
