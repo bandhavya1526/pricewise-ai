@@ -102,8 +102,12 @@ export default function App() {
             category: "Electronics",
             rating: item.Rating,
             reviewCount: 1000,
-            image: getProductImage(item.Product_Name),
-            images:
+            image:
+  item.Product_Name.includes("LG Double Door Refrigerator")
+    ? lgFront
+    : getProductImage(item.Product_Name),
+           
+  images:
   item.Product_Name.includes("LG Double Door Refrigerator")
     ? [lgFront, lgOpen, lgSide]
     : [getProductImage(item.Product_Name)],
