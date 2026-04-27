@@ -8,8 +8,8 @@ CORS(app)
 # Load Excel Dataset
 file = "final_price_comparator_graph_ready_dataset.xlsx"
 
-products = pd.read_excel(file, sheet_name="Products_Master")
-history = pd.read_excel(file, sheet_name="Price_History_30Days")
+products = pd.read_excel(file)
+history = products.copy()
 
 
 # Home Route
