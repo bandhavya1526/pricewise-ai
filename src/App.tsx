@@ -185,14 +185,18 @@ const filteredProducts = useMemo(() => {
   const handleProductSelect = async (product: Product) => {
     setSelectedProduct(product);
     setLoading(true);
-    setSelectedPlatform(product.platforms[0].name);
+   const cheapest = product.platforms.reduce((min, p) =>
+  p.price < min.price ? p : min
+);
+
+setSelectedPlatform(cheapest.name);
     setActiveImage(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     try {
       const [pred, ethics] = await Promise.all([
         getPricePrediction(product),
-        getEthicalInsights(product, product.platforms[0].name)
+      getEthicalInsights(product, cheapest.name)
       ]);
       setPrediction(pred);
       setEthicalInsight(ethics);
