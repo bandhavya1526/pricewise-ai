@@ -45,9 +45,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Product, PredictionResult, EthicalInsight, PlatformPrice } from './types';
 import { getPricePrediction, getEthicalInsights } from './services/aiService';
 import { cn } from './lib/utils';
-import lgFront from "./images/lg-front.jpg";
-import lgOpen from "./images/lg-open.jpg";
-import lgSide from "./images/lg-side.jpg";
 import samsungBook from "./images/samsung-book.jpg";
 import jblSpeaker from "./images/jbl-speaker.jpg";
 import noiseWatch from "./images/noise-watch.jpg";
@@ -104,12 +101,12 @@ export default function App() {
             reviewCount: 1000,
             image:
   item.Product_Name.includes("LG Double Door Refrigerator")
-    ? lgFront
+    ? lgFridge
     : getProductImage(item.Product_Name),
            
   images:
   item.Product_Name.includes("LG Double Door Refrigerator")
-    ? [lgFront, lgOpen, lgSide]
+    ? [lgFridge]
     : [getProductImage(item.Product_Name)],
             description: item.Product_Name,
             stockStatus: "IN_STOCK",
